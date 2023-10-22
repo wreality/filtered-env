@@ -1,0 +1,17 @@
+{
+  "owner": "wreality",
+  "repo": "matchedEnvironments",
+  "title_prefix": "GitHub Action: ",
+  "paths": {
+    "action": "action.yml",
+    "readme": "README.md"
+  },
+  "show_logo": true,
+  "versioning": {
+    "enabled": true,
+    "prefix": "v",
+    "override": "",
+    "branch": "main"
+  },
+  "pretty": true
+}

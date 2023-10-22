@@ -1,19 +1,37 @@
-name: 'The name of your action here'
-description: 'Provide a description here'
-author: 'Your name or organization here'
+name: 'matched-environments'
+description:
+  'Use docker tags and a Github envionment variable to create a list of
+  environments to deploy to'
+author: 'wreality'
 
 # Define your inputs here.
 inputs:
-  milliseconds:
-    description: 'Your input description here'
+  tags:
+    description: 'Tags (usually from docker metadata action)'
     required: true
-    default: '1000'
+  token:
+    description: 'Github token with repo read permissions'
+    required: true
+  environment_variable:
+    description: 'Github environment variable that contains the regex to match'
+    required: false
+    default: 'TAG_REGEX'
+  environments:
+    description:
+      'Comma separated list of environments to match against (fetched from API
+      if not provided)'
+    required: false
+  include_no_match:
+    description:
+      'Include environments in output that do not have a regex variable'
+    required: false
+    default: false
 
 # Define your outputs here.
 outputs:
-  time:
-    description: 'Your output description here'
+  environments:
+    description: 'JSON srtring of environments that match the regex'
 
 runs:
-  using: node20
+  using: node18
   main: dist/index.js

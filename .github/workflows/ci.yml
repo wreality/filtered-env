@@ -53,8 +53,13 @@ jobs:
         id: test-action
         uses: ./
         with:
-          milliseconds: 1000
-
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tags: |
+            tagOne
+            tagTwo
+      - run: sudo apt install jq
+        shell: bash
       - name: Print Output
         id: output
         run: echo "${{ steps.test-action.outputs.time }}"
+        shell: bash
