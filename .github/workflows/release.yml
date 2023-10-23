@@ -2,16 +2,20 @@ on:
   push:
     branches:
       - main
-permissions:
-  contents: write
-  pull-requests: write
 
 name: release-please
 jobs:
   release-please:
     runs-on: ubuntu-latest
     steps:
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_KEY }}
       - uses: google-github-actions/release-please-action@v3
         with:
           release-type: node
           package-name: filtered-env
+          token: ${{ steps.generate_token.outputs.token}}
