@@ -29873,7 +29873,7 @@ async function run() {
         const { owner, repo } = github.context.repo;
         const tags = await parseMultiline(core.getInput('tags', { required: true }));
         const envVar = core.getInput('environment_variable');
-        const environments = await parseMultiline(core.getInput('environments'), () => fetchEnvironments(octokit, owner, repo));
+        const environments = await parseMultiline(core.getInput('environments'), async () => fetchEnvironments(octokit, owner, repo));
         const includeNoRegex = !!core.getInput('include_no_regex');
         core.debug(`tags: ${tags}`);
         core.debug(`envVar: ${envVar}`);
