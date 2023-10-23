@@ -16,6 +16,10 @@ ignorePatterns:
 
 parser: '@typescript-eslint/parser'
 
+settings:
+  import/resolver:
+    typescript:
+
 parserOptions:
   ecmaVersion: 2023
   sourceType: module
@@ -79,5 +83,6 @@ rules:
     '@typescript-eslint/semi': ['error', 'never'],
     '@typescript-eslint/space-before-function-paren': 'off',
     '@typescript-eslint/type-annotation-spacing': 'error',
-    '@typescript-eslint/unbound-method': 'error'
+    '@typescript-eslint/unbound-method': 'error',
+    'eslint-comments/no-unlimited-disable': 'off'
   }

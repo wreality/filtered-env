@@ -21,7 +21,7 @@ inputs:
       'Comma separated list of environments to match against (fetched from API
       if not provided)'
     required: false
-  include_no_match:
+  include_no_regex:
     description:
       'Include environments in output that do not have a regex variable'
     required: false
@@ -33,5 +33,5 @@ outputs:
     description: 'JSON srtring of environments that match the regex'
 
 runs:
-  using: node18
+  using: node20
   main: dist/index.js
