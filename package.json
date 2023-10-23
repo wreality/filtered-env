@@ -1,7 +1,7 @@
 {
   "name": "filtered-env",
   "description": "Use docker tags and a Github envionment variable to create a list of environments to deploy to",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "author": "Brian Adams <wreality@gmail.com>",
   "private": true,
   "homepage": "https://github.com/wreality/matchedEnvironments",
