@@ -1,6 +1,13 @@
 <!-- @generated -->
 # Changelog
 
+## [1.0.1](https://github.com/wreality/filtered-env/compare/v1.0.0...v1.0.1) (2023-10-23)
+
+
+### Bug Fixes
+
+* update readme and description ([#6](https://github.com/wreality/filtered-env/issues/6)) ([5923ed9](https://github.com/wreality/filtered-env/commit/5923ed9076f588501795ac4a095fe527f243ebd9))
+
 ## 1.0.0 (2023-10-23)
 
 
