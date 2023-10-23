@@ -65,5 +65,5 @@ jobs:
       - name: Print Output
         env:
           MATCHED: ${{ steps.test-action.outputs.environments }}
-        run: echo $MATCHED | grep "testOne"
+        run: echo "$MATCHED" | grep "testOne"
         shell: bash
