@@ -48,12 +48,17 @@ jobs:
       - name: Checkout
         id: checkout
         uses: actions/checkout@v4
-
+      - name: Generate a token
+        id: generate_token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.APP_ID }}
+          private-key: ${{ secrets.APP_KEY }}
       - name: Test Local Action
         id: test-action
         uses: ./
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ steps.generate_token.outputs.token }}
           tags: |
             tagOne
             tagTwo
