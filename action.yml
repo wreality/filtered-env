@@ -10,10 +10,11 @@ inputs:
     description: 'Tags (usually from docker metadata action)'
     required: true
   token:
-    description: 'Github token with repo read permissions'
+    description: 'GitHub token with repository read permissions'
     required: true
   environment_variable:
-    description: 'Github environment variable that contains the regex to match'
+    description:
+      'GitHub environment variable that contains the regular expression to match'
     required: false
     default: 'TAG_REGEX'
   environments:
@@ -23,14 +24,16 @@ inputs:
     required: false
   include_no_regex:
     description:
-      'Include environments in output that do not have a regex variable'
+      'Include environments in output that do not have a regular expression
+      variable'
     required: false
     default: false
 
 # Define your outputs here.
 outputs:
   environments:
-    description: 'JSON srtring of environments that match the regex'
+    description:
+      'JSON srtring of environments that match the regular expression'
 
 runs:
   using: node20
