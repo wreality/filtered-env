@@ -77,10 +77,12 @@ jobs:
     runs-on: ubuntu-20.04
     strategy:
       matrix:
-        environment: ${{ fromJson(needs.environments.outputs.environments)}} # Use the filtered environments list to create a job matrix.
+        # Use the filtered environments list to create a job matrix.
+        environment: ${{ fromJson(needs.environments.outputs.environments)}}
     environment: ${{ strategy.matrix.environment}} # Set the environment from the matrix
     steps:
-      - run: echo "Deploy" # This is where you'd execute your deployment steps.  You have full access to environment secrets and variables.
+      # This is where you'd execute your deployment steps.  You have full access to environment secrets and variables.
+      - run: echo "Deploy"
         shell: bash
 ```
 
