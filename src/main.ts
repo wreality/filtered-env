@@ -15,14 +15,15 @@ export async function run(): Promise<void> {
     const octokit = github.getOctokit(token)
     const { owner, repo } = github.context.repo
 
-    const tags: string[] = parseMultiline(
+    const tags: string[] = await parseMultiline(
       core.getInput('tags', { required: true })
     )
 
     const envVar: string = core.getInput('environment_variable')
-    const environments: string[] =
-      parseMultiline(core.getInput('environments')) ||
-      fetchEnvironments(octokit, owner, repo)
+    const environments: string[] = await parseMultiline(
+      core.getInput('environments'),
+      () => fetchEnvironments(octokit, owner, repo)
+    )
     const includeNoRegex = !!core.getInput('include_no_regex')
     core.debug(`tags: ${tags}`)
     core.debug(`envVar: ${envVar}`)
@@ -64,11 +65,24 @@ export async function run(): Promise<void> {
     if (error instanceof Error) core.setFailed(error.message)
   }
 
-  function parseMultiline(input: string): string[] {
-    return input
+  async function parseMultiline(
+    input: string,
+    ifEmpty?: CallableFunction
+  ): Promise<string[]> {
+    const inputArray = input
       .split(/\r?\n/)
-      ?.map((line: string) => line.trim())
+      .map((line: string) => line.trim())
       .filter((line: string) => line.length > 0)
+
+    if (inputArray.length > 0) {
+      return inputArray
+    }
+
+    if (typeof ifEmpty === 'function') {
+      return await ifEmpty()
+    }
+
+    return []
   }
 
   async function fetchEnvironments(

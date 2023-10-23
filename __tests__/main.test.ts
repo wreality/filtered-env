@@ -32,6 +32,7 @@ describe('action', () => {
 
     debugMock.mockImplementation(() => {})
     setOutputMock.mockImplementation(() => {})
+    getOctokitMock.mockImplementation(() => octokitMock)
   })
 
   it('matches regexes', async () => {
@@ -48,7 +49,6 @@ describe('action', () => {
       }
     })
 
-    getOctokitMock.mockImplementation(() => octokitMock)
     mocked(octokitMock.rest.actions.getEnvironmentVariable).mockImplementation(
       ({ environment_name }) => {
         switch (environment_name) {
@@ -83,8 +83,6 @@ describe('action', () => {
           return ''
       }
     })
-
-    getOctokitMock.mockImplementation(() => octokitMock)
     mocked(octokitMock.rest.actions.getEnvironmentVariable).mockImplementation(
       ({ environment_name }) => {
         switch (environment_name) {
@@ -120,7 +118,6 @@ describe('action', () => {
       }
     })
 
-    getOctokitMock.mockImplementation(() => octokitMock)
     mocked(octokitMock.rest.actions.getEnvironmentVariable).mockImplementation(
       ({ environment_name }) => {
         switch (environment_name) {
@@ -138,5 +135,40 @@ describe('action', () => {
       'environments',
       JSON.stringify(['env1', 'env3'])
     )
+  })
+
+  it('gets environments from the api if not provided', async () => {
+    getInputMock.mockImplementation((name: string): string => {
+      switch (name) {
+        case 'token':
+          return 'token'
+        case 'tags':
+          return 'package:one\npackage:two\npackage:three'
+        case 'include_no_regex':
+          return 'true'
+        default:
+          return ''
+      }
+    })
+
+    mocked(octokitMock.rest.actions.getEnvironmentVariable).mockImplementation(
+      ({ environment_name }) => {
+        switch (environment_name) {
+          case 'env2':
+            return { data: { value: ':four$' } }
+          case 'env3':
+            return { data: { value: ':two$' } }
+        }
+      }
+    )
+
+    mocked(octokitMock.rest.reposs.getAllEnvironments).mockImplementation(
+      () => {
+        return { data: [{ name: 'env1' }, { name: 'env2' }, { name: 'env3' }] }
+      }
+    )
+    await main.run()
+    expect(runMock).toHaveReturned()
+    expect(mocked(octokitMock.rest.repos.getAllEnvironments)).toHaveBeenCalled()
   })
 })
