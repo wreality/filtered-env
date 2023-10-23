@@ -1,6 +1,6 @@
 {
   "owner": "wreality",
-  "repo": "matchedEnvironments",
+  "repo": "filtered-env",
   "title_prefix": "GitHub Action: ",
   "paths": {
     "action": "action.yml",
@@ -11,7 +11,8 @@
     "enabled": true,
     "prefix": "v",
     "override": "",
-    "branch": "main"
+    "branch": "main",
+    "badges": true
   },
   "pretty": true
 }

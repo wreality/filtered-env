@@ -1,4 +1,4 @@
-name: 'matched-environments'
+name: 'filtered-env'
 description:
   'Use docker tags and a Github envionment variable to create a list of
   environments to deploy to'
