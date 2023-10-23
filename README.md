@@ -15,12 +15,14 @@
 
 </div>
 <!-- start description -->
-This action is most useful when paired with [docker/metadata-action](https://github.com/docker/metadata-action).
-It fetches the list of environments configured on the repository and looks for a `TAG_REGEX` variable on each.
-If the environment's regular expression matches any of the tags provided, the environment is included in the
-output. This output can then be fed into a matrix strategy for a dependent job to deploy only the environments
-that match.
+Fetch the list of environments configured on the repository and read the `TAG_REGEX` variable on each.
+If the `TAG_REGEX` regular expression matches any of the tags provided, the environment is included in the
+output.
 <!-- end description -->
+
+This action is most useful when paired with [docker/metadata-action](https://github.com/docker/metadata-action).
+The environments output can then be fed into a matrix strategy for a dependent job to deploy only the environments
+that match.
 
 <!-- markdownlint-restore -->
 
