@@ -1,8 +1,7 @@
 name: 'filtered-env'
 description: |
-  Fetch the list of environments configured on the repository and read the `TAG_REGEX` variable on each.
-  If the `TAG_REGEX` regular expression matches any of the tags provided, the environment is included in the
-  output.
+  Fetch GitHub environments and read `TAG_REGEX` variable on each. Output environments that match the regular
+  expression.
 icon: filter
 color: orange
 author: 'wreality'
