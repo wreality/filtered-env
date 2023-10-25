@@ -1,6 +1,13 @@
 <!-- @generated -->
 # Changelog
 
+## [1.0.4](https://github.com/wreality/filtered-env/compare/v1.0.3...v1.0.4) (2023-10-25)
+
+
+### Bug Fixes
+
+* add branding for marketplace ([7028045](https://github.com/wreality/filtered-env/commit/7028045bf22aa5a9749395ad8591a4ab37036b56))
+
 ## [1.0.3](https://github.com/wreality/filtered-env/compare/v1.0.2...v1.0.3) (2023-10-25)
 
 
