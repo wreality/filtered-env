@@ -1,6 +1,13 @@
 <!-- @generated -->
 # Changelog
 
+## [1.0.3](https://github.com/wreality/filtered-env/compare/v1.0.2...v1.0.3) (2023-10-25)
+
+
+### Bug Fixes
+
+* shorten description for GHA marketplace ([7a060bd](https://github.com/wreality/filtered-env/commit/7a060bda3ee62c263c2af101e4b6d40f7660573f))
+
 ## [1.0.2](https://github.com/wreality/filtered-env/compare/v1.0.1...v1.0.2) (2023-10-23)
 
 
