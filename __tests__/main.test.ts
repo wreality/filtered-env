@@ -15,6 +15,7 @@ import { mocked } from './deepMock'
 const debugMock = jest.spyOn(core, 'debug')
 const getInputMock = jest.spyOn(core, 'getInput')
 const setOutputMock = jest.spyOn(core, 'setOutput')
+const setFailedMock = jest.spyOn(core, 'setFailed')
 
 const getOctokitMock = jest.spyOn(github, 'getOctokit')
 
@@ -33,6 +34,7 @@ describe('action', () => {
     debugMock.mockImplementation(() => {})
     setOutputMock.mockImplementation(() => {})
     getOctokitMock.mockImplementation(() => octokitMock)
+    setFailedMock.mockImplementation(() => {})
   })
 
   it('matches regexes', async () => {
@@ -162,13 +164,94 @@ describe('action', () => {
       }
     )
 
-    mocked(octokitMock.rest.reposs.getAllEnvironments).mockImplementation(
+    mocked(octokitMock.rest.repos.getAllEnvironments).mockImplementation(
       () => {
-        return { data: [{ name: 'env1' }, { name: 'env2' }, { name: 'env3' }] }
+        return { data: { environments: [{ name: 'env1' }, { name: 'env2' }, { name: 'env3' }] } }
       }
     )
     await main.run()
     expect(runMock).toHaveReturned()
     expect(mocked(octokitMock.rest.repos.getAllEnvironments)).toHaveBeenCalled()
+  })
+
+  it('uses supplied input as variable name', async () => {
+    getInputMock.mockImplementation((name: string): string => {
+      switch (name) {
+        case 'token':
+          return 'token'
+        case 'tags':
+          return 'package:one\npackage:two\npackage:three'
+        case 'environment_variable':
+          return 'MY_VAR'
+        default:
+          return ''
+      }
+    })
+
+    mocked(octokitMock.rest.actions.getEnvironmentVariable).mockImplementation(
+      ({ environment_name }) => {
+        switch (environment_name) {
+          case 'env2':
+            return { data: { value: ':four$' } }
+          case 'env3':
+            return { data: { value: ':two$' } }
+        }
+      }
+    )
+
+    mocked(octokitMock.rest.repos.getAllEnvironments).mockImplementation(
+      () => {
+        return { data: { environments: [{ name: 'env1' }, { name: 'env2' }, { name: 'env3' }] } }
+      }
+    )
+
+    await main.run()
+    expect(runMock).toHaveReturned()
+    expect(mocked(octokitMock.rest.repos.getAllEnvironments)).toHaveBeenCalled()
+    expect(mocked(octokitMock.rest.actions.getEnvironmentVariable)).toHaveBeenCalledWith(expect.objectContaining({name: 'MY_VAR' }))
+  })
+
+  it ('sets failed if error is thrown', async () => {
+    getInputMock.mockImplementation((name: string): string => {
+      switch (name) {
+        case 'token':
+          return 'token'
+        case 'tags':
+          return 'package:one\npackage:two\npackage:three'
+        default:
+          return ''
+      }
+    })
+
+    mocked(octokitMock.rest.repos.getAllEnvironments).mockImplementation(() => {
+      throw new Error('test error')
+    })
+
+    await main.run()
+    expect(runMock).toHaveReturned()
+    expect(setFailedMock).toHaveBeenCalledWith('test error')
+  })
+
+
+  it ('tags falls back to empty array', async () => {
+    getInputMock.mockImplementation((name: string): string => {
+      switch (name) {
+        case 'token':
+          return 'token'
+        case 'tags':
+          return ''
+        case 'environments':
+          return 'env1\nenv2\nenv3'
+        default:
+          return ''
+      }
+    })
+
+    await main.run()
+    expect(runMock).toHaveReturned()
+    expect(setOutputMock).toHaveBeenCalledWith(
+      'environments',
+      JSON.stringify([])
+    )
   })
 })

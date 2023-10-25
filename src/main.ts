@@ -11,6 +11,7 @@ type Environment = components['schemas']['environment']
  */
 export async function run(): Promise<void> {
   try {
+    core.debug('Start-----------')
     const token: string = core.getInput('token', { required: true })
     const octokit = github.getOctokit(token)
     const { owner, repo } = github.context.repo
@@ -19,7 +20,7 @@ export async function run(): Promise<void> {
       core.getInput('tags', { required: true })
     )
 
-    const envVar: string = core.getInput('environment_variable')
+    const envVar: string = core.getInput('environment_variable') || 'TAG_REGEX'
     const environments: string[] = await parseMultiline(
       core.getInput('environments'),
       async () => fetchEnvironments(octokit, owner, repo)
