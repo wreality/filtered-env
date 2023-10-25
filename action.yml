@@ -2,8 +2,9 @@ name: 'filtered-env'
 description: |
   Fetch GitHub environments and read `TAG_REGEX` variable on each. Output environments that match the regular
   expression.
-icon: filter
-color: orange
+branding:
+  icon: filter
+  color: orange
 author: 'wreality'
 # Define your inputs here.
 inputs:
