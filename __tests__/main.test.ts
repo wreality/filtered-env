@@ -164,11 +164,13 @@ describe('action', () => {
       }
     )
 
-    mocked(octokitMock.rest.repos.getAllEnvironments).mockImplementation(
-      () => {
-        return { data: { environments: [{ name: 'env1' }, { name: 'env2' }, { name: 'env3' }] } }
+    mocked(octokitMock.rest.repos.getAllEnvironments).mockImplementation(() => {
+      return {
+        data: {
+          environments: [{ name: 'env1' }, { name: 'env2' }, { name: 'env3' }]
+        }
       }
-    )
+    })
     await main.run()
     expect(runMock).toHaveReturned()
     expect(mocked(octokitMock.rest.repos.getAllEnvironments)).toHaveBeenCalled()
@@ -199,19 +201,23 @@ describe('action', () => {
       }
     )
 
-    mocked(octokitMock.rest.repos.getAllEnvironments).mockImplementation(
-      () => {
-        return { data: { environments: [{ name: 'env1' }, { name: 'env2' }, { name: 'env3' }] } }
+    mocked(octokitMock.rest.repos.getAllEnvironments).mockImplementation(() => {
+      return {
+        data: {
+          environments: [{ name: 'env1' }, { name: 'env2' }, { name: 'env3' }]
+        }
       }
-    )
+    })
 
     await main.run()
     expect(runMock).toHaveReturned()
     expect(mocked(octokitMock.rest.repos.getAllEnvironments)).toHaveBeenCalled()
-    expect(mocked(octokitMock.rest.actions.getEnvironmentVariable)).toHaveBeenCalledWith(expect.objectContaining({name: 'MY_VAR' }))
+    expect(
+      mocked(octokitMock.rest.actions.getEnvironmentVariable)
+    ).toHaveBeenCalledWith(expect.objectContaining({ name: 'MY_VAR' }))
   })
 
-  it ('sets failed if error is thrown', async () => {
+  it('sets failed if error is thrown', async () => {
     getInputMock.mockImplementation((name: string): string => {
       switch (name) {
         case 'token':
@@ -232,8 +238,7 @@ describe('action', () => {
     expect(setFailedMock).toHaveBeenCalledWith('test error')
   })
 
-
-  it ('tags falls back to empty array', async () => {
+  it('tags falls back to empty array', async () => {
     getInputMock.mockImplementation((name: string): string => {
       switch (name) {
         case 'token':
